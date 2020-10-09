@@ -1,0 +1,2814 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "2015310908-임성규-week5.ipynb",
+      "provenance": [],
+      "collapsed_sections": [
+        "jTi7s_Zx7q-5",
+        "dXMjrr-lidJq",
+        "hVbAfCjZsf9D",
+        "bjcTMg3s7sM4",
+        "5x7X5YrLzF63",
+        "dc6oHf2H0V6a",
+        "thm8GLwl0XRW",
+        "cMf0sFtk0vsJ",
+        "KynXuXRn1U0t",
+        "PqBDDpQ16f5w",
+        "haKFLP_j1u-0",
+        "uHZHPUqHAYla",
+        "n3dEQPnImEyJ"
+      ],
+      "toc_visible": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "accelerator": "GPU"
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "NFZLbsaX8SH1"
+      },
+      "source": [
+        "# Contents\n",
+        "\n",
+        "- Colab\n",
+        "    - Enable GPU (Oral)\n",
+        "    - Hotkeys\n",
+        "    - Terminal commands\n",
+        "    - File I/O\n",
+        "- Numpy\n",
+        "    - Vectors & Matrices\n",
+        "        - Creation\n",
+        "        - Indexing & Assignment\n",
+        "        - Operation\n",
+        "        - Reshaping\n",
+        "    - Comparison with python lists\n",
+        "- Exercise1\n",
+        "- PyTorch\n",
+        "    - Tensors\n",
+        "        - Creration\n",
+        "        - Operation\n",
+        "        - Reshaping\n",
+        "- Exercise2\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "jTi7s_Zx7q-5"
+      },
+      "source": [
+        "# How to use Colab?\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "hOYj4eVv78P3"
+      },
+      "source": [
+        "Colaboratory is a free Jupyter notebook environment that requires no setup and runs entirely in the cloud.\n",
+        "\n",
+        "With Colaboratory you can write and execute code, save and share your analyses, and access powerful computing resources, all for free from your browser."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "eJ0xmENaPCUV"
+      },
+      "source": [
+        "Advantages\n",
+        "\n",
+        "- The best thing is that it is free!\n",
+        "- It gives you costly GPUs and working envriornment, independent of what personal machine you are using.\n",
+        "- It also runs on Google servers using virtual machines and you don’t need to install any packages, which sometimes create difficulty you are using different operating systems such as MAC, Windows, and Linux."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "dXMjrr-lidJq"
+      },
+      "source": [
+        "### Hotkeys (change as you want)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "lLlLU_Aoi8IK"
+      },
+      "source": [
+        "| hotkey | action |\n",
+        "| --- | --- |\n",
+        "| ctrl + M H | Open hotkey configuration |\n",
+        "| ctrl + O | Open note |\n",
+        "| ctrl + S | Save note |\n",
+        "| ctrl + F9 | Run all cells |\n",
+        "| ctrl + shift + enter | Run cell |\n",
+        "| shift + enter | Run cell and move on to the next |\n",
+        "| alt + enter | Run cell and add a new one below |\n",
+        "| ctrl + M I | Stop running execution |\n",
+        "| ctrl + M A | Add new code cell above |\n",
+        "| ctrl + M B | Add new code cell below |\n",
+        "| ctrl + M D | Delete cell |\n",
+        "| ctrl + M K | Move cell up |\n",
+        "| ctrl + M J | Move cell down |\n",
+        "| ctrl + M Y | Change to code cell |\n",
+        "| ctrl + M M | Change to markdown cell |\n",
+        "| ctrl + M Z | Undo last cell execution |\n",
+        "| ctrl + H | Search |\n",
+        "| ctrl + / | Comment out or undo |"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "hVbAfCjZsf9D"
+      },
+      "source": [
+        "### Terminal commands"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "I-37xARkqKFA",
+        "outputId": "be86c7cf-801b-40b6-9282-d5e5b73ac77f",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "# Get OS info\n",
+        "!cat /etc/issue.net"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Ubuntu 18.04.5 LTS\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "h1oXSy-RvGkC",
+        "outputId": "31d4ad29-3a71-426c-a036-e2dd6d19f7e4",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 131
+        }
+      },
+      "source": [
+        "# Get CPU info\n",
+        "!cat /proc/cpuinfo | grep 'processor\\|model name\\|cpu cores'\n",
+        "# Get memory info\n",
+        "# !free -h\n",
+        "# Get disk info\n",
+        "# !df -h"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "processor\t: 0\n",
+            "model name\t: Intel(R) Xeon(R) CPU @ 2.30GHz\n",
+            "cpu cores\t: 1\n",
+            "processor\t: 1\n",
+            "model name\t: Intel(R) Xeon(R) CPU @ 2.30GHz\n",
+            "cpu cores\t: 1\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "bnwLlgJ_gkAI",
+        "outputId": "0f4f9efc-e24d-4ade-a846-e0e59ac77f93",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 55
+        }
+      },
+      "source": [
+        "# Get GPU info\n",
+        "!nvidia-smi"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is installed and running.\n",
+            "\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "o40n39H4r4gR",
+        "outputId": "20229d8e-e4e0-4759-92c4-3d606e4042dd",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "# Get python version\n",
+        "!python --version"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Python 3.6.9\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "_vfTvu3_-lb8",
+        "outputId": "e677a696-4508-45a1-c27f-add8feda0fad",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 55
+        }
+      },
+      "source": [
+        "# Get current directory\n",
+        "!pwd\n",
+        "%cd"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "/content\n",
+            "/root\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "vnJhNcnO-7X0",
+        "outputId": "8fb96dbf-1cc2-4c3b-f75e-4630fee0fd48",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 283
+        }
+      },
+      "source": [
+        "# Get files/folders list\n",
+        "!ls -lah"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "total 64K\n",
+            "drwx------ 1 root root 4.0K Oct  8 04:59 .\n",
+            "drwxr-xr-x 1 root root 4.0K Oct  8 04:59 ..\n",
+            "-rw-r--r-- 1 root root 3.1K Apr  9  2018 .bashrc\n",
+            "drwxr-xr-x 1 root root 4.0K Oct  5 17:02 .cache\n",
+            "drwxr-xr-x 1 root root 4.0K Oct  5 17:00 .config\n",
+            "drwxr-xr-x 3 root root 4.0K Oct  5 16:31 .gsutil\n",
+            "drwxr-xr-x 1 root root 4.0K Oct  5 17:00 .ipython\n",
+            "drwx------ 2 root root 4.0K Oct  5 17:00 .jupyter\n",
+            "drwxr-xr-x 2 root root 4.0K Oct  8 04:59 .keras\n",
+            "drwx------ 1 root root 4.0K Oct  5 17:00 .local\n",
+            "drwxr-xr-x 3 root root 4.0K Oct  5 17:00 .node-gyp\n",
+            "drwxr-xr-x 4 root root 4.0K Oct  5 17:00 .npm\n",
+            "-rw-r--r-- 1 root root  148 Aug 17  2015 .profile\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "SanL9vJZOk5v",
+        "outputId": "d9d7cb53-e956-41cb-88ef-020b99ba7a5b",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 93
+        }
+      },
+      "source": [
+        "!mv\n",
+        "!cp"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "mv: missing file operand\n",
+            "Try 'mv --help' for more information.\n",
+            "cp: missing file operand\n",
+            "Try 'cp --help' for more information.\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Llw0ZPAKoMZi",
+        "outputId": "7ea2d0c2-6f2c-4ce9-e665-2d76c28b9840",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 207
+        }
+      },
+      "source": [
+        "!pip show torch"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Name: torch\n",
+            "Version: 1.6.0+cu101\n",
+            "Summary: Tensors and Dynamic neural networks in Python with strong GPU acceleration\n",
+            "Home-page: https://pytorch.org/\n",
+            "Author: PyTorch Team\n",
+            "Author-email: packages@pytorch.org\n",
+            "License: BSD-3\n",
+            "Location: /usr/local/lib/python3.6/dist-packages\n",
+            "Requires: future, numpy\n",
+            "Required-by: torchvision, torchtext, fastai\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "bjcTMg3s7sM4"
+      },
+      "source": [
+        "### File I/O"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ICWGHmOhuFUI"
+      },
+      "source": [
+        "# Upload file to Colab workspace\n",
+        "# [NOTE] Uploaded files will be gone when runtime resets\n",
+        "import os\n",
+        "from google.colab import files\n",
+        "\n",
+        "uploaded = files.upload()\n",
+        "\n",
+        "for f in uploaded.keys():\n",
+        "    print('User uploaded file \"{}\" at \"{}\"'.format(f, os.getcwd()))\n",
+        "\n",
+        "# Or simply open file tab then drag-and-drop"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "AtBKyVEjAJu4"
+      },
+      "source": [
+        "# Download file from Colab workspace\n",
+        "# [NOTE] Enable third party cookies and use Chrome browser\n",
+        "files.download('./sample_data/mnist_train_small.csv')\n",
+        "\n",
+        "# Or simply open file tab and right click a file then download <-- Recommended"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "j4BaBcpeDGpO"
+      },
+      "source": [
+        "# Mount Google drive\n",
+        "from google.colab import drive\n",
+        "\n",
+        "drive.mount('/content/gdrive')"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "Wk7cUX5azP05"
+      },
+      "source": [
+        "# Numpy Tutorial\n",
+        "\n",
+        "Refers heavily on \n",
+        "https://nbviewer.jupyter.org/github/cgpotts/cs224u/blob/2019-spring/numpy_tutorial.ipynb\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "vK_XkXfNy7oU"
+      },
+      "source": [
+        "import numpy as np"
+      ],
+      "execution_count": 4,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "5x7X5YrLzF63"
+      },
+      "source": [
+        "## Vectors & Matrices"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "dc6oHf2H0V6a"
+      },
+      "source": [
+        "### Initialization"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "CIfxeRiOzFcp",
+        "outputId": "edabf842-ac83-4c7e-a1d3-b359df51002b",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "np.zeros(5)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([0., 0., 0., 0., 0.])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 12
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "IOuBYS5QzEdW",
+        "outputId": "aba4d86f-b29f-41fe-f40b-b053cd9cf8a9",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 74
+        }
+      },
+      "source": [
+        "np.ones((3, 5))"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([[1., 1., 1., 1., 1.],\n",
+              "       [1., 1., 1., 1., 1.],\n",
+              "       [1., 1., 1., 1., 1.]])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 13
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "8FbbUutizL-3",
+        "outputId": "8ff5d236-5b53-4d9d-d88e-e4a7d5d98141",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "# convert list to numpy array\n",
+        "np.array([1, 2, 3, 4, 5])"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([1, 2, 3, 4, 5])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 14
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "MrfLFJ5pzc-w",
+        "outputId": "2070f792-9e32-4fb9-9137-84fe44567c17",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "# convert numpy array to list\n",
+        "np.ones(5).tolist()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "[1.0, 1.0, 1.0, 1.0, 1.0]"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 15
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "BiMCVVjKzuDo",
+        "outputId": "10719c61-d16c-4679-bc5b-22fe468dc08b",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 55
+        }
+      },
+      "source": [
+        "# you can specify data type\n",
+        "np.array([[1,2,3], [4,5,6]], dtype='int')"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([[1, 2, 3],\n",
+              "       [4, 5, 6]])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 16
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Z9h21mc8z79c",
+        "outputId": "0053426b-2894-4dbd-bb45-4efd2dd95f14",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "# spaced values in interval\n",
+        "np.arange(0, 20, 2)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([ 0,  2,  4,  6,  8, 10, 12, 14, 16, 18])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 17
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "D12zKwgV0EyU",
+        "outputId": "0d030b7a-16f3-4d21-951e-80911d8526c1",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 55
+        }
+      },
+      "source": [
+        "# random floats in [0, 1)\n",
+        "np.random.random(10)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([0.41265044, 0.74759028, 0.97835503, 0.80193081, 0.41605703,\n",
+              "       0.32339973, 0.07997728, 0.72408873, 0.86088897, 0.8256376 ])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 18
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "5mlOXgfr5sfI",
+        "outputId": "73cc6960-6d0d-44bb-dbff-1caae410bb2a",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 74
+        }
+      },
+      "source": [
+        "# identity matrix\n",
+        "np.identity(3)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([[1., 0., 0.],\n",
+              "       [0., 1., 0.],\n",
+              "       [0., 0., 1.]])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 19
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "thm8GLwl0XRW"
+      },
+      "source": [
+        "### Indexing"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "XPoqQr6-0OM-"
+      },
+      "source": [
+        "import numpy as np\n",
+        "\n",
+        "x = np.array([10, 20, 30, 40, 50])"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "y1EI7a610bxh",
+        "outputId": "b815af5a-31c9-4465-9651-baf86546fe16",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "x[0]"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "10"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 21
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "m8mVc6nx0e5o",
+        "outputId": "403e5e18-a0b4-4421-962d-82aeddf96ebf",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "x[0:2]"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([10, 20])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 22
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "qVqymdRQ6ceH",
+        "outputId": "d2c395e1-7f79-476b-fa6a-f5e680ec5489",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 55
+        }
+      },
+      "source": [
+        "X = np.array([[1,2,3], [4,5,6]])\n",
+        "X"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([[1, 2, 3],\n",
+              "       [4, 5, 6]])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 23
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "T9hR4X3H6ceK",
+        "outputId": "e13e3768-29c0-47b7-854b-2e19ab9197e5",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "X[0]"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([1, 2, 3])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 24
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "lgQR6P616ceN",
+        "outputId": "788800b9-c1ba-407f-94fd-b9daf3a03a04",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "X[0,0]"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "1"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 25
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "U7JP86S66ceP",
+        "outputId": "feb1d99f-d7ef-4cc5-b3c4-cc9fb619dfdd",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "# get row\n",
+        "X[0, : ]"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([1, 2, 3])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 26
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "wvEFYPCG6ceR",
+        "outputId": "f1fa860c-6fe1-48c5-ad0e-70774b7c2eaf",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "# get column\n",
+        "X[ : , 0]"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([1, 4])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 27
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "cY6OJmaQ6ceT",
+        "outputId": "46a4062a-363c-4142-e49e-3197406a29b1",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 55
+        }
+      },
+      "source": [
+        "# get multiple columns\n",
+        "X[ :, [0, 2]]"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([[1, 3],\n",
+              "       [4, 6]])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 28
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "cMf0sFtk0vsJ"
+      },
+      "source": [
+        "### Assignment"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "R1s8e4w452pB",
+        "outputId": "b642e4a2-6ff8-4e3f-a7b5-a3fec2626578",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 55
+        }
+      },
+      "source": [
+        "a = np.array([[1,2,3,4], [5,6,7,8], [9,10,11,12]])\n",
+        "\n",
+        "b = a[:2, 1:3]\n",
+        "print(a[0, 1])   \n",
+        "b[0, 0] = 77    \n",
+        "print(a[0, 1])   "
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "2\n",
+            "77\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "cPRH7TD76E1G",
+        "outputId": "1ed27d5d-153e-43b1-9398-3e58a065437c",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 55
+        }
+      },
+      "source": [
+        "c = a.copy()\n",
+        "assert id(a) != id(c), 'Functional methods create a new copy of the array'\n",
+        "\n",
+        "c = c[:2, 1:3]\n",
+        "print(a[0, 1])   \n",
+        "c[0, 0] = 77    \n",
+        "print(a[0, 1])  "
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "77\n",
+            "77\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "KynXuXRn1U0t"
+      },
+      "source": [
+        "### Operations (functions)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "GEeL87Hg6fXa",
+        "outputId": "82f9dcbd-80d3-4655-841c-36be2deb2761",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 93
+        }
+      },
+      "source": [
+        "a = np.array([[1,2,3,4], [5,6,7,8], [9,10,11,12]])\n",
+        "#  Built-in 메서드\n",
+        "print(a.sum())   \n",
+        "print(a.mean()) \n",
+        "print(a.max())   \n",
+        "print(a.argmax()) # 가장 큰 숫자의 인덱스, 위치를 알려줌"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "78\n",
+            "6.5\n",
+            "12\n",
+            "11\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "QzEHGrhP6vhI",
+        "outputId": "4c1db091-734d-4fd4-a2df-f80471b54fd4",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "print(a.max(axis=0))"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "[ 9 10 11 12]\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "XPgvzbJT6wVe",
+        "outputId": "301dd384-d2d0-4d80-8d49-0ce16de607c9",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 131
+        }
+      },
+      "source": [
+        "# others\n",
+        "print(np.log(a)) \n",
+        "print(np.exp(a)) "
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "[[0.         0.69314718 1.09861229 1.38629436]\n",
+            " [1.60943791 1.79175947 1.94591015 2.07944154]\n",
+            " [2.19722458 2.30258509 2.39789527 2.48490665]]\n",
+            "[[2.71828183e+00 7.38905610e+00 2.00855369e+01 5.45981500e+01]\n",
+            " [1.48413159e+02 4.03428793e+02 1.09663316e+03 2.98095799e+03]\n",
+            " [8.10308393e+03 2.20264658e+04 5.98741417e+04 1.62754791e+05]]\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "WMZ8C28K6xE5",
+        "outputId": "52baa3a4-5d60-4851-da49-e2521e1c3164",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 112
+        }
+      },
+      "source": [
+        "\"\"\" Broadcasting \"\"\"\n",
+        "# Vector + scalar\n",
+        "print(a + 1) \n",
+        "\n",
+        "# 2 x 1 Vector + 1 x 2 Vector\n",
+        "m1 = np.array([[1, 2]])\n",
+        "m2 = np.array([[3], \n",
+        "               [4]])\n",
+        "\n",
+        "print(m1 + m2)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "[[ 2  3  4  5]\n",
+            " [ 6  7  8  9]\n",
+            " [10 11 12 13]]\n",
+            "[[4 5]\n",
+            " [5 6]]\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "PqBDDpQ16f5w"
+      },
+      "source": [
+        "### Reshaping"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "U41aI8kC5S1g",
+        "outputId": "53d92b94-5038-4473-c1a5-25da0257f961",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "z = np.arange(1, 7)\n",
+        "z"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([1, 2, 3, 4, 5, 6])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 35
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "bKHih5qF54Zy",
+        "outputId": "7e9bd274-1115-4ce0-9adb-b6cd444e84ed",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "z.shape"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(6,)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 36
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ha8wA70c55bO",
+        "outputId": "1211ff63-089a-4337-ae37-ab51cb4e302e",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 55
+        }
+      },
+      "source": [
+        "Z = z.reshape(2, 3)\n",
+        "Z"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([[1, 2, 3],\n",
+              "       [4, 5, 6]])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 37
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "6REYzs2P6DR7",
+        "outputId": "fd606dec-fc03-4b09-ddf6-a34ff27bc0ac",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "Z.shape"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(2, 3)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 38
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "sMUt1s_n6Tlf",
+        "outputId": "ac91b31a-0883-4ed3-e5ed-20c3b1fefc5d",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "Z.reshape(6)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([1, 2, 3, 4, 5, 6])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 39
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "CJSd4FmC6Upj",
+        "outputId": "71669ca9-c8aa-4086-e498-4728df0a4694",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "# same as above\n",
+        "Z.flatten()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([1, 2, 3, 4, 5, 6])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 40
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "9t8S7tEA6WYZ",
+        "outputId": "7c0efc37-b381-4d6a-8046-4717486efa24",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 74
+        }
+      },
+      "source": [
+        "# transpose the matrix\n",
+        "Z.T"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([[1, 4],\n",
+              "       [2, 5],\n",
+              "       [3, 6]])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 41
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "haKFLP_j1u-0"
+      },
+      "source": [
+        "## Comparison with python lists\n",
+        "\n",
+        "Why do we use array? \n",
+        "\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "XSSHmWEp3COu"
+      },
+      "source": [
+        "# log every value as list, one by one\n",
+        "def listlog(vals):\n",
+        "    return [np.log(y) for y in vals]"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "4Cri_K6P3Lzh",
+        "outputId": "c1da1f3d-ef8f-4033-edea-69e277af95ac",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 55
+        }
+      },
+      "source": [
+        "# get random vector\n",
+        "samp = np.random.random_sample(int(1e7))+1\n",
+        "samp"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([1.10072111, 1.87030778, 1.04214411, ..., 1.4362117 , 1.0045361 ,\n",
+              "       1.81447137])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 43
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "-eiFlou93FBI",
+        "outputId": "0711903d-8cf3-48db-be7e-e9c9972b738c",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 55
+        }
+      },
+      "source": [
+        "%time _ = listlog(samp)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "CPU times: user 14.6 s, sys: 322 ms, total: 14.9 s\n",
+            "Wall time: 14.9 s\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "e9zaAGo33OIT",
+        "outputId": "08586305-42c5-45ad-ed00-d9fd10bf23e3",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 55
+        }
+      },
+      "source": [
+        "%time _ = np.log(samp)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "CPU times: user 798 ms, sys: 50 ms, total: 848 ms\n",
+            "Wall time: 849 ms\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "Nm8YGbEiMKrR"
+      },
+      "source": [
+        "## Excercise1"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "EGLNwo2RNgsx"
+      },
+      "source": [
+        "Q1. Create a vector with values ranging from 10 to 49 (ex. 10, 11, ... 49) \\\n",
+        "\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "nmTRRBk3QT4g",
+        "outputId": "78ef5c20-cee4-4e09-96c1-4fea1a0a60a9",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 68
+        }
+      },
+      "source": [
+        "# write your code\n",
+        "\n",
+        "np.arange(10,50,1)"
+      ],
+      "execution_count": 6,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,\n",
+              "       27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,\n",
+              "       44, 45, 46, 47, 48, 49])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 6
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "hANj1arSNqW2"
+      },
+      "source": [
+        "Q2. Create a vector with values ranging from 49 to 10 (ex. 49, 48, ... 10)\\\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "zliyCV3BQXBp",
+        "outputId": "06fa3340-ea6f-422c-f0dc-5fc39523e9c3",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 68
+        }
+      },
+      "source": [
+        "# write your code\n",
+        "\n",
+        "np.arange(49,9,-1)"
+      ],
+      "execution_count": 7,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([49, 48, 47, 46, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33,\n",
+              "       32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16,\n",
+              "       15, 14, 13, 12, 11, 10])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 7
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "N_CIgUqLNqrb"
+      },
+      "source": [
+        "Q3. Get the positions where elements of 'a' and 'b' match? (Hint: np.where)\\\n",
+        "Input)\\\n",
+        "a = np.array([1,2,3,2,3,4,3,4,5,6])\\\n",
+        "b = np.array([7,2,10,2,7,4,9,4,9,8])\\\n",
+        "Output\\\n",
+        "=> array([1, 3, 5, 7])\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "e_OuXEfAQXQa",
+        "outputId": "d6e028d3-72e7-41f0-979e-33d885f5301b",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 34
+        }
+      },
+      "source": [
+        "a = np.array([1,2,3,2,3,4,3,4,5,6])\n",
+        "b = np.array([7,2,10,2,7,4,9,4,9,8])\n",
+        "\n",
+        "# write your code\n",
+        "\n",
+        "c = a==b\n",
+        "\n",
+        "np.where(c==True)\n"
+      ],
+      "execution_count": 19,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "(array([1, 3, 5, 7]),)\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "GyUc68uENq_l"
+      },
+      "source": [
+        "Q4. Remove Negative values in the array ‘b’ (HARD, Hint: np.where)\\\n",
+        "Input: a = np.array((3, -2, 2, -1, 3))\\\n",
+        "Output:\\\n",
+        "=> [3, 2, 3]"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "C27bpDhIQYBm",
+        "outputId": "00544969-5920-4076-9145-70bb6980a24e",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 34
+        }
+      },
+      "source": [
+        "a = np.array((3, -2, 2, -1, 3))\n",
+        "# write your code\n",
+        "\n",
+        "a[np.where(a>0)]"
+      ],
+      "execution_count": 18,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([3, 2, 3])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 18
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "HCqkfBzs7gkK"
+      },
+      "source": [
+        "# Pytorch Tutorial\n",
+        "\n",
+        "Refers heavily on \n",
+        "https://github.com/cgpotts/cs224u/blob/master/tutorial_pytorch.ipynb"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "8XyuVE1jlprF"
+      },
+      "source": [
+        "import torch"
+      ],
+      "execution_count": 20,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "-96WZDu4AYlY"
+      },
+      "source": [
+        "## Tensors"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "SZya2EQMAYlZ"
+      },
+      "source": [
+        "### Tensor creation"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "uHZHPUqHAYla"
+      },
+      "source": [
+        "#### Calling the constructor"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "0FnpV8u1AYlb",
+        "outputId": "b547810f-c301-4e09-eb35-549c91d8a6b5",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 74
+        }
+      },
+      "source": [
+        "t = torch.FloatTensor(2, 3)\n",
+        "print(t)\n",
+        "print(t.size())"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "tensor([[2.1744e-24, 0.0000e+00, 3.7835e-44],\n",
+            "        [0.0000e+00,        nan, 0.0000e+00]])\n",
+            "torch.Size([2, 3])\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "QOsBbJsLAYle",
+        "outputId": "e4fbe2ed-4d03-4efe-9f9a-3b3ec69687db",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 55
+        }
+      },
+      "source": [
+        "t.zero_()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "tensor([[0., 0., 0.],\n",
+              "        [0., 0., 0.]])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 53
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "dSRL60GsAYlh",
+        "outputId": "4de0dc29-c819-4e00-8f22-74b18eda537d",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 55
+        }
+      },
+      "source": [
+        "torch.FloatTensor([[1, 2, 3], [4, 5, 6]])"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "tensor([[1., 2., 3.],\n",
+              "        [4., 5., 6.]])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 54
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "XCL_ipglAYlj"
+      },
+      "source": [
+        "#### Calling a method in the torch module"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "K8fRMb_kAYlj",
+        "outputId": "8c3bee6f-f010-4c8a-9990-b10887dfe2ad",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 55
+        }
+      },
+      "source": [
+        "tl = torch.tensor([1, 2, 3])\n",
+        "t = torch.tensor([1., 2., 3.])\n",
+        "print(tl, tl.type()) # A 64-bit integer tensor:\n",
+        "print(t, t.type()) # A 32-bit float tensor:"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "tensor([1, 2, 3]) torch.LongTensor\n",
+            "tensor([1., 2., 3.]) torch.FloatTensor\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "9IAozG4qAYln",
+        "outputId": "3d19185b-4787-4307-aa31-21045f50caeb",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 55
+        }
+      },
+      "source": [
+        "t = torch.zeros(2, 3)\n",
+        "print(t)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "tensor([[0., 0., 0.],\n",
+            "        [0., 0., 0.]])\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "C9OonMUXAYlp",
+        "outputId": "3942a686-f661-4373-cd46-d5860f22bd0a",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 207
+        }
+      },
+      "source": [
+        "t_zeros = torch.zeros_like(t)        # zeros_like returns a new tensor\n",
+        "t_ones = torch.ones(2, 3)            # creates a tensor with 1s\n",
+        "t_fives = torch.empty(2, 3).fill_(5) # creates a non-initialized tensor and fills it with 5\n",
+        "t_random = torch.rand(2, 3)          # creates a uniform random tensor\n",
+        "t_normal = torch.randn(2, 3)         # creates a normal random tensor\n",
+        "\n",
+        "print(t_zeros)\n",
+        "print(t_ones)\n",
+        "print(t_fives)\n",
+        "print(t_random)\n",
+        "print(t_normal)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "tensor([[0., 0., 0.],\n",
+            "        [0., 0., 0.]])\n",
+            "tensor([[1., 1., 1.],\n",
+            "        [1., 1., 1.]])\n",
+            "tensor([[5., 5., 5.],\n",
+            "        [5., 5., 5.]])\n",
+            "tensor([[0.8397, 0.8803, 0.5346],\n",
+            "        [0.3521, 0.4682, 0.9756]])\n",
+            "tensor([[ 0.5222,  0.2584, -1.2199],\n",
+            "        [ 0.7564,  1.6085, -0.5254]])\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "zA6phbBkAYls"
+      },
+      "source": [
+        "# creates a new copy of the tensor that is still linked to \n",
+        "# the computational graph (see below)\n",
+        "t1 = torch.clone(t)\n",
+        "assert id(t) != id(t1), 'Functional methods create a new copy of the tensor'\n",
+        "\n",
+        "# To create a new _independent_ copy, we do need to detach \n",
+        "# from the graph\n",
+        "t1 = torch.clone(t).detach()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "vdYHIc4oAYlu"
+      },
+      "source": [
+        "#### Using the PyTorch–NumPy bridge"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "GdYQObiOAYlv",
+        "outputId": "c8034595-a3e7-498b-c0e5-ab7af5441843",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 55
+        }
+      },
+      "source": [
+        "# Create a new multi-dimensional array in NumPy with the np datatype (np.float32)\n",
+        "a = np.array([1., 2., 3.])\n",
+        "\n",
+        "# Convert the array to a torch tensor\n",
+        "t = torch.tensor(a)\n",
+        "\n",
+        "print(\"NumPy array: {}, type: {}\".format(a, a.dtype))\n",
+        "print(\"Torch tensor: {}, type: {}\".format(t, t.dtype))"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "NumPy array: [1. 2. 3.], type: float64\n",
+            "Torch tensor: tensor([1., 2., 3.], dtype=torch.float64), type: torch.float64\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "oMXSFDxYAYlx",
+        "outputId": "a63c092e-f51c-48ac-c015-adbd56b41ec9",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "t.numpy()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([1., 2., 3.])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 60
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "-FU0EJZGAYl0"
+      },
+      "source": [
+        "#### Indexing"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "mM9XNyXPAYl0",
+        "outputId": "2d5ca9a7-2f18-4993-b980-154ddc1d8efb",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "t = torch.randn(2, 3)\n",
+        "t[ : , 0]"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "tensor([-1.0240,  1.2278])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 61
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "scrolled": true,
+        "id": "QeJ1tJwYAYl3",
+        "outputId": "839fb7d3-40f2-41b1-e04a-6f4254cbf771",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 169
+        }
+      },
+      "source": [
+        "t = torch.randn(5, 6)\n",
+        "print(t)\n",
+        "i = torch.tensor([1, 3])\n",
+        "j = torch.tensor([4, 5])\n",
+        "print(t[i])                          # selects rows 1 and 3\n",
+        "print(t[i, j])                       # selects (1, 4) and (3, 5)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "tensor([[ 0.1764, -0.2181, -1.5305,  0.4674,  0.2200,  0.6094],\n",
+            "        [-0.3428,  0.3299, -0.4349,  0.5293,  0.5787, -0.4281],\n",
+            "        [-0.3480, -1.8590,  0.5618,  0.1275, -0.3385,  0.7349],\n",
+            "        [ 0.1253, -1.1577, -0.1593, -0.6943,  0.4298,  1.1510],\n",
+            "        [-0.0706,  0.6462,  0.6544, -1.8379, -0.5908,  0.8677]])\n",
+            "tensor([[-0.3428,  0.3299, -0.4349,  0.5293,  0.5787, -0.4281],\n",
+            "        [ 0.1253, -1.1577, -0.1593, -0.6943,  0.4298,  1.1510]])\n",
+            "tensor([0.5787, 1.1510])\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "YSbnhX1LAYl7"
+      },
+      "source": [
+        "### Operations on tensors"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "8r2LsFEsAYl8",
+        "outputId": "4050ed73-37ce-4b69-fe21-8d2327d53064",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "# Scalars =: creates a tensor with a scalar \n",
+        "# (zero-th order tensor,  i.e. just a number)\n",
+        "s = torch.tensor(42)\n",
+        "print(s)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "tensor(42)\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "y4iC3kxtAYl-",
+        "outputId": "d2f81961-4647-4e06-9ea1-f49348f33ef4",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "s.item()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "42"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 64
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "HBuQ_A6UmcyF"
+      },
+      "source": [
+        "#### Matrix operation"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "IKH_s6c2AYmB",
+        "outputId": "b34832ae-fa3f-400e-b009-16a531e1d44c",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 264
+        }
+      },
+      "source": [
+        "# Row vector\n",
+        "x = torch.randn(1,3)\n",
+        "print(\"Row vector\\n{}\\nwith size {}\".format(x, x.size()))\n",
+        "\n",
+        "# Column vector\n",
+        "v = torch.randn(3,1)\n",
+        "print(\"Column vector\\n{}\\nwith size {}\".format(v, v.size()))\n",
+        "\n",
+        "# Matrix\n",
+        "A = torch.randn(3, 3)\n",
+        "print(\"Matrix\\n{}\\nwith size {}\".format(A, A.size()))"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Row vector\n",
+            "tensor([[-0.6214, -0.0423, -0.5628]])\n",
+            "with size torch.Size([1, 3])\n",
+            "Column vector\n",
+            "tensor([[ 0.9170],\n",
+            "        [-1.2481],\n",
+            "        [ 0.3484]])\n",
+            "with size torch.Size([3, 1])\n",
+            "Matrix\n",
+            "tensor([[ 0.4549, -0.2819,  0.9527],\n",
+            "        [ 1.3569, -0.1815,  1.0996],\n",
+            "        [-0.6504,  1.1489, -0.8130]])\n",
+            "with size torch.Size([3, 3])\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "79i3WKd6AYmE",
+        "cellView": "code",
+        "outputId": "82e6798c-c59a-494d-b0db-caf79e8e6aa7",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 188
+        }
+      },
+      "source": [
+        "#@title\n",
+        "u = torch.matmul(A, v)\n",
+        "print(u, u.shape) # [3, 1]\n",
+        "b = torch.randn(3, 1)\n",
+        "y = u + b\n",
+        "print(y)\n",
+        "\n",
+        "# or you can use torch.add()\n",
+        "print(torch.add(u, b))"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "tensor([[ 1.1008],\n",
+            "        [ 1.8539],\n",
+            "        [-2.3135]]) torch.Size([3, 1])\n",
+            "tensor([[-0.1834],\n",
+            "        [ 1.0851],\n",
+            "        [-2.7676]])\n",
+            "tensor([[-0.1834],\n",
+            "        [ 1.0851],\n",
+            "        [-2.7676]])\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "eDKAVzG9AYmG",
+        "outputId": "2d1e8693-57d1-4f58-97a9-f010699a6ab4",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "s = torch.matmul(x, torch.matmul(A, v))\n",
+        "print(s.item()) "
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "0.5395243167877197\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "n3dEQPnImEyJ"
+      },
+      "source": [
+        "#### Matmul vs. Mul"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "LuOAptBvK2x_",
+        "outputId": "9f3fea7d-fb42-427b-b585-5cbdd61b25d5",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 207
+        }
+      },
+      "source": [
+        "m1 = torch.FloatTensor([[1, 2], [3, 4]])\n",
+        "m2 = torch.FloatTensor([[1], [2]])\n",
+        "print('Shape of Matrix 1: ', m1.shape) # 2 x 2\n",
+        "print('Shape of Matrix 2: ', m2.shape) # 2 x 1\n",
+        "print(m1.matmul(m2)) # 2 x 1\n",
+        "\n",
+        "m1 = torch.FloatTensor([[1, 2], [3, 4]])\u000bm2 = torch.FloatTensor([[1], [2]])\n",
+        "\u000bprint('Shape of Matrix 1: ', m1.shape) # 2 x 2\n",
+        "print('Shape of Matrix 2: ', m2.shape) # 2 x 1\n",
+        "print(m1 * m2) # 2 x 2\n",
+        "print(m1.mul(m2))"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Shape of Matrix 1:  torch.Size([2, 2])\n",
+            "Shape of Matrix 2:  torch.Size([2, 1])\n",
+            "tensor([[ 5.],\n",
+            "        [11.]])\n",
+            "Shape of Matrix 1:  torch.Size([2, 2])\n",
+            "Shape of Matrix 2:  torch.Size([2, 1])\n",
+            "tensor([[1., 2.],\n",
+            "        [6., 8.]])\n",
+            "tensor([[1., 2.],\n",
+            "        [6., 8.]])\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "fDxw3yR3mlUM"
+      },
+      "source": [
+        "#### others"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "1yxDFGjWAYmI",
+        "outputId": "f4ac09db-ef61-45aa-aba7-edc79c9a0d84",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 112
+        }
+      },
+      "source": [
+        "# common tensor methods (they also have the counterpart in \n",
+        "# the torch package, e.g. as torch.sum(t))\n",
+        "t = torch.randn(2,3)\n",
+        "t.sum(dim=0)                 \n",
+        "t.t()                   # transpose\n",
+        "t.numel()               # number of elements in tensor\n",
+        "t.nonzero()             # indices of non-zero elements\n",
+        "\n",
+        "\n",
+        "# operations in the package\n",
+        "torch.arange(0, 10)     # tensor([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])\n",
+        "torch.eye(3, 3)         # creates a 3x3 matrix with 1s in the diagonal (identity in this case)\n",
+        "t = torch.arange(0, 3)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "/usr/local/lib/python3.6/dist-packages/ipykernel_launcher.py:7: UserWarning: This overload of nonzero is deprecated:\n",
+            "\tnonzero()\n",
+            "Consider using one of the following signatures instead:\n",
+            "\tnonzero(*, bool as_tuple) (Triggered internally at  /pytorch/torch/csrc/utils/python_arg_parser.cpp:766.)\n",
+            "  import sys\n"
+          ],
+          "name": "stderr"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "CAg-ZLqmC2Zx"
+      },
+      "source": [
+        "### Reshaping (view)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Af0q0DLQC9R5",
+        "cellView": "code"
+      },
+      "source": [
+        "#@title\n",
+        "import torch\n",
+        "import numpy as np\n",
+        "\n",
+        "t = np.arange(12).reshape(-1, 2, 3)"
+      ],
+      "execution_count": 2,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "9b2NEde4Eieh",
+        "cellView": "code",
+        "outputId": "21438704-9b35-4be2-ac1d-928f2fa14065",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 34
+        }
+      },
+      "source": [
+        "#@title\n",
+        "t.shape"
+      ],
+      "execution_count": 9,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(2, 2, 3)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 9
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "RduHorQCEjQp",
+        "cellView": "code",
+        "outputId": "b79b3d28-1183-42ef-c050-07cf98f3fd8d",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 34
+        }
+      },
+      "source": [
+        "#@title\n",
+        "floatt = torch.FloatTensor(t)\n",
+        "floatt.shape"
+      ],
+      "execution_count": 10,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "torch.Size([2, 2, 3])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 10
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "jfdnq_tjG7TB",
+        "cellView": "code",
+        "outputId": "7ca95d43-6361-4cfb-b8f6-9ecc50726f6e",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 34
+        }
+      },
+      "source": [
+        "#@title\n",
+        "floatt.view([-1, 3]).shape"
+      ],
+      "execution_count": 15,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "torch.Size([4, 3])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 15
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "966aocEsl9yR"
+      },
+      "source": [
+        "more techniques"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "RRhU0asaKMak",
+        "cellView": "code",
+        "outputId": "09cfa963-8074-4044-f117-c6cf75857c4b",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "#@title\n",
+        "flattened = floatt.flatten()\n",
+        "print(flattened)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "tensor([ 0.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9., 10., 11.])\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ZyfYf1LXKFV-",
+        "outputId": "a5eff4cb-74be-48b7-aaea-e8698110f9da",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        }
+      },
+      "source": [
+        "t = torch.randn(2,3)\n",
+        "t.flatten()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "tensor([-1.7998, -1.2970,  0.5050,  0.8667,  0.4307, -3.2959])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 70
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "8VnIvepAl8Ut",
+        "cellView": "code"
+      },
+      "source": [
+        "#@title\n",
+        "t = torch.tensor(np.arange(6))"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "zOXwwLv2J9fP",
+        "cellView": "code",
+        "outputId": "88c1ea3b-32e7-4554-bbae-7d539d249283",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 264
+        }
+      },
+      "source": [
+        "#@title\n",
+        "print(t.view(-1, 2))           # reorganizes the tensor to these dimensions\n",
+        "\n",
+        "print(t.unsqueeze(1))          # inserts a dimension\n",
+        "print(t.unsqueeze(1).squeeze())             # removes size 1 dimensions\n",
+        "\n",
+        "print(torch.cat((t, t)))       # tensor([0, 1, 2, 0, 1, 2])\n",
+        "print(torch.stack((t, t)))     # tensor([[0, 1, 2],\n",
+        "                        #         [0, 1, 2]])"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "tensor([[0, 1],\n",
+            "        [2, 3],\n",
+            "        [4, 5]])\n",
+            "tensor([[0],\n",
+            "        [1],\n",
+            "        [2],\n",
+            "        [3],\n",
+            "        [4],\n",
+            "        [5]])\n",
+            "tensor([0, 1, 2, 3, 4, 5])\n",
+            "tensor([0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5])\n",
+            "tensor([[0, 1, 2, 3, 4, 5],\n",
+            "        [0, 1, 2, 3, 4, 5]])\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "0auDroqFHKnk"
+      },
+      "source": [
+        "## Exercise2\n",
+        "\n",
+        "**Restriction**\n",
+        "- Convert it to pytorch tensor first. \n",
+        "- Use only pytorch methods, not numpy.\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "saS6ZRbTHSd4"
+      },
+      "source": [
+        "Q1. Using reshaping and indexing, print out as follows:\n",
+        "\n",
+        "Goal : \\\n",
+        "`torch.Size([2, 2, 6]) \\\n",
+        "tensor([18., 19., 20., 21.])`\n",
+        "\n",
+        "\n",
+        "\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "vH5b9cpXG_vF",
+        "outputId": "063b91ab-4816-4269-d9b1-2adc80a269ae",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 51
+        }
+      },
+      "source": [
+        "t = np.arange(24, dtype=\"float\")\n",
+        "\n",
+        "a = torch.tensor(t)\n",
+        "\n",
+        "a = a.view([2,2,6])\n",
+        "\n",
+        "print(a.shape)\n",
+        "\n",
+        "i = torch.tensor([1])\n",
+        "j = torch.tensor([1])\n",
+        "k = torch.tensor([0,1,2,3])\n",
+        "\n",
+        "print(a[i,j,k])\n",
+        "\n",
+        "\n",
+        "### write your code (Hint : keep printing the shape and result so that you can see!)\n"
+      ],
+      "execution_count": 33,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "torch.Size([2, 2, 6])\n",
+            "tensor([18., 19., 20., 21.], dtype=torch.float64)\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "huiUbyWbW_Zu"
+      },
+      "source": [
+        "Q2. Add 1 to tensor A (Hint: Broadcast)\\\n",
+        "Input: a = np.arange(9).reshape(3, 3)\\\n",
+        "Output: \\\n",
+        "\n",
+        "\n",
+        "```\n",
+        "tensor([[1, 2, 3],\n",
+        "        [4, 5, 6],\n",
+        "        [7, 8, 9]])\n",
+        "```\n",
+        "\n",
+        "\n",
+        "\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "OJL1rurLW_Zu",
+        "outputId": "d3bc21b8-d3d8-4ebb-b89b-88d3e44c7075",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 68
+        }
+      },
+      "source": [
+        "a = np.arange(9).reshape(3, 3)\n",
+        "\n",
+        "A = torch.tensor(a)\n",
+        "b = torch.tensor(1)\n",
+        "\n",
+        "A = torch.add(A, b)\n",
+        "\n",
+        "print(A)\n",
+        "\n",
+        "# write your code\n"
+      ],
+      "execution_count": 32,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "tensor([[1, 2, 3],\n",
+            "        [4, 5, 6],\n",
+            "        [7, 8, 9]])\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "vcCKYJUSW_Zw"
+      },
+      "source": [
+        "\n",
+        "Q3. Swap rows 1 and 2 in the array 'a’ at Q2(HARD)\n",
+        "\n",
+        "![image.png](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG8AAABKCAIAAAA6xp2yAAAD20lEQVR4Ae2b0XbjMAhE8/8/nZ5WLqWCGSEbW05Cn+iA0HDNpt6e3cezvvIIPPJaVadn0cxcgqJZNDMJZPaq3bwTzcfvlzX1m7nvA0t3eHTUxwN2ICmLfqGS6BOyCI5HrPBU24vgLbosflBWTwe6VYuJT1vMlQU0tXsdc6OSnaIpp0iwwwPqdjVNa90qyOvz+WzFwSO5ZcSVpIrm9oSEyJHgaprWa3CDZDF1YLtpRRaZfzjEDejmbryY5tQkUiyBO5KIHUR0CunSJx6soSk/ZCeMqlex4Py2zCrxTY9YXUNTnLnjSVYHulLHumYYuwddcdjKLVhMM7ga3cDdt+5grugedEX3+FC8mqa1bhVrWj4ZusBWasV2tkrwceq2JH4Nmt0ALpSuxsXkHnRF2y2iXE2zG3LfJPFTulLHGg3SdU0wXkCzAe1eX4J2W9nU/PLhgK6Y6oaabMZ4epglVkhq2PbKgkSfCbuJtmy4FFcic+9Kd3iUpuvyY8Wimfnoi2bRzCSQ2evE3Uz/jM+c+6dXusNzaabPf0bDG70hkfGIy91LQXoiJ8O7dvSEd6HEcR251LqOIzceqUdnkR7x09Us+JOu3eu4c9Z9O1yxrr77hUDLute5ou0WUa6maa1bhfg+WOwed0XigaTemaYd2wXnivZsRPkgmoga0iP4uppPoUmQkVQHa/jt+9NsP74IiKJJ4PxLRUhFav41xd+8824GMQXLMMO/zNU0u9fA2Umm6oPFwbI/Zjgqmnf6V134OTGXO/5i0y6a2iO5RQfW8FRPe1wrC3ZTX3+H+GVoDt9O1tKUnc2yceJuZll8oT5FM/NhFc2imUkgs9eJu5n+GZ85908v4pCkiI1zaZKL75Mib0gk5fpfQ3P2yUu9Dtx5rChHbKopBBlJud0W0NQWdez6Q2LwoC7TsW6L9O5XCvoIiq+maa1bBXkVPXjEllmFI3PrxYYN1tO0nrgSn9BWWqVoTmyAxqdj/cCQzkHrDhJPOJMzwcB12cThTwZ0hdsTFTd9eBfpSVLupQtoaos6dv114pF6dBbpL7ObmhEZRpe1+GCxe9wVd1z3Td86zlJcl1a0CjIQr0Qs3A6uiDogb1s9Tx/Jui6taBV0abxym039R1ek8D/O0zci68d114oVrYKujlcidm4HV0QdkLetnqePZJFLret4eNdU8TaeWk90HOl8bV23V39uypDtxcX1hEQyNjrSiPC7SFuScm9cQ9O1skokyEjKdXsuTb4UrqErRfJiT1LE4Yk0ya3vmiqamU+2aBbNTAKZvWo3i2YmgcxetZtFM5NAZq/azUyaXwA4RLv0pRloAAAAAElFTkSuQmCC)\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "uidsA9FaW_Zw",
+        "outputId": "11f51741-7559-43f6-966f-a595fcf33766",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 68
+        }
+      },
+      "source": [
+        "a = np.arange(9).reshape(3, 3)\n",
+        "A = torch.tensor(a)\n",
+        "\n",
+        "\n",
+        "\n",
+        "A[[0,1]] = A[[1,0]]\n",
+        "\n",
+        "print(A)\n",
+        "\n",
+        "# write your code\n"
+      ],
+      "execution_count": 27,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "tensor([[3, 4, 5],\n",
+            "        [0, 1, 2],\n",
+            "        [6, 7, 8]])\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "2KoVM2rEYtF1"
+      },
+      "source": [
+        ""
+      ],
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
